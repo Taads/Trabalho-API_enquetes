@@ -1,0 +1,30 @@
+-- Tabela de Votações
+CREATE TABLE sys_votacao (
+    vot_co_votacao BIGSERIAL PRIMARY KEY,
+    vot_no_nome VARCHAR(80),
+    vot_in_status VARCHAR(2),
+    vot_tx_descricao VARCHAR(3000)
+);
+
+-- Tabela de Alternativas das Votações
+CREATE TABLE sys_votacao_alternativas (
+    valt_co_alternativa BIGSERIAL PRIMARY KEY,
+    vot_co_votacao BIGINT REFERENCES sys_votacao(vot_co_votacao),
+    valt_no_alternativa VARCHAR(300)
+);
+
+-- Tabela de Participantes
+CREATE TABLE sys_participante (
+    par_co_participante BIGSERIAL PRIMARY KEY,
+    par_no_nome VARCHAR(300),
+    par_no_email VARCHAR(300)
+);
+
+-- Tabela de Votos
+CREATE TABLE sys_votacao_voto (
+    voto_co_voto BIGSERIAL,
+    vot_co_votacao BIGINT REFERENCES sys_votacao(vot_co_votacao),
+    valt_co_alternativa BIGINT REFERENCES sys_votacao_alternativas(valt_co_alternativa),
+    par_co_participante BIGINT REFERENCES sys_participante(par_co_participante),
+    PRIMARY KEY (vot_co_votacao, par_co_participante)
+);
